@@ -2,7 +2,7 @@
 
 ~ "Apply" Apply
 ~ "Applicative" append
-~ "Arithmetic" mult
+~ "Number" mul
 
 .. Apply a quotation that returns a container, and join the results. The quotation is on top.
 & Apply f => Chain f
@@ -10,7 +10,7 @@
   chain ( (f a) (a -- (f b)) -- (f b) )
 
 ? "chain" < < 1 10 > >
-  [ < 1 > [ dup 10 mult swap <> swap append swap append ] chain ]
+  [ < 1 > [ dup 10 mul swap <> swap append swap append ] chain ]
 
 
 .. One layer removed. The inner container is the result.

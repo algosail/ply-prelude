@@ -6,7 +6,8 @@
 ~ "Applicative" Applicative, of
 ~ "Apply" lift2
 ~ "Semigroup" concat
-~ "Arithmetic" add, sub, div, mod,  mult, inc, dec
+~ "Number" add, sub, mul, inc, dec
+~ "Remainder" div, mod
 
 .. Visit each value with a quotation that returns an applicative result, and collect those results in order.
 .. Applicative already brings ap and map.
@@ -59,7 +60,7 @@
   rot bia [ pair ] lift2
 
 : goDefault ( Applicative f => (Array a) (a -- (f b)) Num Num -- ( f ( Array b ) ) )
-  dup 4 div 2 mult swapd . n idx m
+  dup 4 div 2 mul swapd . n idx m
   [ leftGo ] keep2 [ swap ] dip2 . n idx m
   rigthGo
   [ keep2 ] dip call

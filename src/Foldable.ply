@@ -4,7 +4,7 @@
 ~ "Monoid" Monoid, empty
 ~ "Applicative" Applicative, append, prepend
 ~ "Ord" Ord, lt, lte
-~ "Arithmetic" add, sub, inc
+~ "Number" add, sub, inc
 ~ "Logical" and, or, not
 ~ "Semigroup" concat
 ~ "Filterable" filter

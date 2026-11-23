@@ -1,0 +1,51 @@
+@ Remainder, quotRem, quot, rem, divMod, div, mod
+
+~ "Number" Number
+
+& Number a => Remainder a
+  quotRem ( a a -- a a )
+  divMod ( a a -- a a )
+
+? "quotRem int" < -2n -1n > [ -7n 3n quotRem ]
+? "quotRem num" < -3 -1.5 > [ -7.5 2 quotRem ]
+? "divMod int" < -3n 2n > [ -7n 3n divMod ]
+? "divMod num" < -4 0.5 > [ -7.5 2 divMod ]
+
+: quot ( Remainder a => a a -- a )
+  quotRem drop
+
+? "quot num" < -3 > [ -7.5 2 quot ]
+
+: rem ( Remainder a => a a -- a )
+  quotRem swap drop
+
+? "rem num" < -1.5 > [ -7.5 2 rem ]
+
+: div ( Remainder a => a a -- a )
+  divMod drop
+
+? "div num" < -4 > [ -7.5 2 div ]
+
+: mod ( Remainder a => a a -- a )
+  divMod swap drop
+
+? "mod num" < 0.5 > [ -7.5 2 mod ]
+? "mod num" < 0.8 > [ -1.2 1 mod ]
+
+. ..................................................................................................
+
+# Remainder Int
+  quotRem = quotRem_int
+  divMod = divMod_int
+
+: foreign quotRem_int ( Int Int -- Int Int )
+: foreign divMod_int ( Int Int -- Int Int )
+
+. ..................................................................................................
+
+# Remainder Num
+  quotRem = quotRem_num
+  divMod = divMod_num
+
+: foreign quotRem_num ( Num Num -- Num Num )
+: foreign divMod_num ( Num Num -- Num Num )

@@ -4,20 +4,22 @@
 - [@plylang/prelude/Alternative](#plylangpreludealternative)
 - [@plylang/prelude/Applicative](#plylangpreludeapplicative)
 - [@plylang/prelude/Apply](#plylangpreludeapply)
-- [@plylang/prelude/Arithmetic](#plylangpreludearithmetic)
 - [@plylang/prelude/Bifunctor](#plylangpreludebifunctor)
 - [@plylang/prelude/Chain](#plylangpreludechain)
 - [@plylang/prelude/Composition](#plylangpreludecomposition)
 - [@plylang/prelude/Filterable](#plylangpreludefilterable)
 - [@plylang/prelude/Foldable](#plylangpreludefoldable)
+- [@plylang/prelude/Fractional](#plylangpreludefractional)
 - [@plylang/prelude/Functor](#plylangpreludefunctor)
 - [@plylang/prelude/Group](#plylangpreludegroup)
 - [@plylang/prelude/Logical](#plylangpreludelogical)
 - [@plylang/prelude/Monad](#plylangpreludemonad)
 - [@plylang/prelude/Monoid](#plylangpreludemonoid)
+- [@plylang/prelude/Number](#plylangpreludenumber)
 - [@plylang/prelude/Ord](#plylangpreludeord)
 - [@plylang/prelude/Plus](#plylangpreludeplus)
 - [@plylang/prelude/Prelude](#plylangpreludeprelude)
+- [@plylang/prelude/Remainder](#plylangpreluderemainder)
 - [@plylang/prelude/Semigroup](#plylangpreludesemigroup)
 - [@plylang/prelude/Setoid](#plylangpreludesetoid)
 - [@plylang/prelude/Show](#plylangpreludeshow)
@@ -172,109 +174,6 @@ Keep the lower container's value. The upper container still runs.
 ```
 
 Keep the upper container's value. The lower container still runs.
-
-## @plylang/prelude/Arithmetic
-
-### Classes
-
-#### Arithmetic
-
-```ply
-& Arithmetic a
-```
-
-Arithmetic methods share one instance.
-
-#### add
-
-```ply
-add ( Arithmetic a => a a -- a )
-```
-
-The lower value plus the upper one.
-
-#### sub
-
-```ply
-sub ( Arithmetic a => a a -- a )
-```
-
-The upper value subtracted from the lower one.
-
-#### mult
-
-```ply
-mult ( Arithmetic a => a a -- a )
-```
-
-The lower value times the upper one.
-
-#### div
-
-```ply
-div ( Arithmetic a => a a -- a )
-```
-
-The lower value divided by the upper one. A zero divisor throws.
-
-#### mod
-
-```ply
-mod ( Arithmetic a => a a -- a )
-```
-
-The remainder. A zero divisor throws.
-
-#### negate
-
-```ply
-negate ( Arithmetic a => a -- a )
-```
-
-The sign flipped.
-
-#### zero
-
-```ply
-zero ( Arithmetic a => -- a )
-```
-
-The value add leaves unchanged.
-
-#### one
-
-```ply
-one ( Arithmetic a => -- a )
-```
-
-The value multiply leaves unchanged.
-
-### Instances
-
-- Arithmetic Int
-- Arithmetic Num
-
-### Words
-
-#### inc
-
-```ply
-: inc ( Arithmetic a => a -- a )
-```
-
-#### dec
-
-```ply
-: dec ( Arithmetic a => a -- a )
-```
-
-#### abs
-
-```ply
-: abs ( Arithmetic a => Ord a => a -- a )
-```
-
-The value with a negative sign flipped. NaN stays NaN, and -0 stays -0.
 
 ## @plylang/prelude/Bifunctor
 
@@ -533,6 +432,58 @@ An equal result keeps the earlier element.
 
 The elements ordered by lte. An equal element keeps the earlier place.
 
+## @plylang/prelude/Fractional
+
+### Classes
+
+#### Fractional
+
+```ply
+& Number a => Fractional a
+```
+
+#### fdiv
+
+```ply
+fdiv ( Fractional a => a a -- a )
+```
+
+#### floor
+
+```ply
+floor ( Fractional a => a -- a )
+```
+
+#### ceil
+
+```ply
+ceil ( Fractional a => a -- a )
+```
+
+#### round
+
+```ply
+round ( Fractional a => a -- a )
+```
+
+#### trunc
+
+```ply
+trunc ( Fractional a => a -- a )
+```
+
+### Instances
+
+- Fractional Num
+
+### Words
+
+#### recip
+
+```ply
+: recip ( Fractional a => a -- a )
+```
+
 ## @plylang/prelude/Functor
 
 ### Classes
@@ -690,6 +641,83 @@ The value concat leaves unchanged.
 - Monoid Unit
 - Monoid (Array a)
 - Monoid Ordering
+
+## @plylang/prelude/Number
+
+### Classes
+
+#### Number
+
+```ply
+& Number a
+```
+
+#### add
+
+```ply
+add ( Number a => a a -- a )
+```
+
+#### sub
+
+```ply
+sub ( Number a => a a -- a )
+```
+
+#### mul
+
+```ply
+mul ( Number a => a a -- a )
+```
+
+#### zero
+
+```ply
+zero ( Number a => -- a )
+```
+
+#### one
+
+```ply
+one ( Number a => -- a )
+```
+
+### Instances
+
+- Number Int
+- Number Num
+
+### Words
+
+#### inc
+
+```ply
+: inc ( Number a => a -- a )
+```
+
+#### dec
+
+```ply
+: dec ( Number a => a -- a )
+```
+
+#### negate
+
+```ply
+: negate ( Number a => a -- a )
+```
+
+#### sign
+
+```ply
+: sign ( Number a => Ord a => a -- a )
+```
+
+#### abs
+
+```ply
+: abs ( Number a => Ord a => a -- a )
+```
 
 ## @plylang/prelude/Ord
 
@@ -879,78 +907,6 @@ ap ( Apply f => (f a) (f (a -- b)) -- (f b) )
 
 Each value run with the quotation beside it. The quotations are on top.
 
-#### Arithmetic
-
-```ply
-& Arithmetic a
-```
-
-Arithmetic methods share one instance.
-
-#### add
-
-```ply
-add ( Arithmetic a => a a -- a )
-```
-
-The lower value plus the upper one.
-
-#### sub
-
-```ply
-sub ( Arithmetic a => a a -- a )
-```
-
-The upper value subtracted from the lower one.
-
-#### mult
-
-```ply
-mult ( Arithmetic a => a a -- a )
-```
-
-The lower value times the upper one.
-
-#### div
-
-```ply
-div ( Arithmetic a => a a -- a )
-```
-
-The lower value divided by the upper one. A zero divisor throws.
-
-#### mod
-
-```ply
-mod ( Arithmetic a => a a -- a )
-```
-
-The remainder. A zero divisor throws.
-
-#### negate
-
-```ply
-negate ( Arithmetic a => a -- a )
-```
-
-The sign flipped.
-
-#### zero
-
-```ply
-zero ( Arithmetic a => -- a )
-```
-
-The value add leaves unchanged.
-
-#### one
-
-```ply
-one ( Arithmetic a => -- a )
-```
-
-The value multiply leaves unchanged.
-
 #### Bifunctor
 
 ```ply
@@ -1027,6 +983,42 @@ fold ( Foldable f => (f a) b (b a -- b) -- b )
 ```
 
 Walk from the left. The initial value sits under the quotation.
+
+#### Fractional
+
+```ply
+& Number a => Fractional a
+```
+
+#### fdiv
+
+```ply
+fdiv ( Fractional a => a a -- a )
+```
+
+#### floor
+
+```ply
+floor ( Fractional a => a -- a )
+```
+
+#### ceil
+
+```ply
+ceil ( Fractional a => a -- a )
+```
+
+#### round
+
+```ply
+round ( Fractional a => a -- a )
+```
+
+#### trunc
+
+```ply
+trunc ( Fractional a => a -- a )
+```
 
 #### Functor
 
@@ -1133,6 +1125,42 @@ empty ( Monoid a => -- a )
 
 The value concat leaves unchanged.
 
+#### Number
+
+```ply
+& Number a
+```
+
+#### add
+
+```ply
+add ( Number a => a a -- a )
+```
+
+#### sub
+
+```ply
+sub ( Number a => a a -- a )
+```
+
+#### mul
+
+```ply
+mul ( Number a => a a -- a )
+```
+
+#### zero
+
+```ply
+zero ( Number a => -- a )
+```
+
+#### one
+
+```ply
+one ( Number a => -- a )
+```
+
 #### Ord
 
 ```ply
@@ -1164,6 +1192,24 @@ init ( Plus f => -- (f a) )
 ```
 
 The value that loses. alt with it changes nothing.
+
+#### Remainder
+
+```ply
+& Number a => Remainder a
+```
+
+#### quotRem
+
+```ply
+quotRem ( Remainder a => a a -- a a )
+```
+
+#### divMod
+
+```ply
+divMod ( Remainder a => a a -- a a )
+```
 
 #### Semigroup
 
@@ -1289,26 +1335,6 @@ Keep the lower container's value. The upper container still runs.
 ```
 
 Keep the upper container's value. The lower container still runs.
-
-#### inc
-
-```ply
-: inc ( Arithmetic a => a -- a )
-```
-
-#### dec
-
-```ply
-: dec ( Arithmetic a => a -- a )
-```
-
-#### abs
-
-```ply
-: abs ( Arithmetic a => Ord a => a -- a )
-```
-
-The value with a negative sign flipped. NaN stays NaN, and -0 stays -0.
 
 #### mapLeft
 
@@ -1450,6 +1476,12 @@ An equal result keeps the earlier element.
 
 The elements ordered by lte. An equal element keeps the earlier place.
 
+#### recip
+
+```ply
+: recip ( Fractional a => a -- a )
+```
+
 #### flip
 
 ```ply
@@ -1463,6 +1495,36 @@ The elements ordered by lte. An equal element keeps the earlier place.
 ```
 
 The lower value implies the upper one.
+
+#### sign
+
+```ply
+: sign ( Number a => Ord a => a -- a )
+```
+
+#### negate
+
+```ply
+: negate ( Number a => a -- a )
+```
+
+#### abs
+
+```ply
+: abs ( Number a => Ord a => a -- a )
+```
+
+#### inc
+
+```ply
+: inc ( Number a => a -- a )
+```
+
+#### dec
+
+```ply
+: dec ( Number a => a -- a )
+```
 
 #### lt
 
@@ -1527,6 +1589,30 @@ Lower bound, upper bound, then the value. A value outside the bounds becomes the
 Folds with alt, starting from init.
 Maybe keeps the first Just. Array appends every piece, lower first.
 
+#### quot
+
+```ply
+: quot ( Remainder a => a a -- a )
+```
+
+#### rem
+
+```ply
+: rem ( Remainder a => a a -- a )
+```
+
+#### div
+
+```ply
+: div ( Remainder a => a a -- a )
+```
+
+#### mod
+
+```ply
+: mod ( Remainder a => a a -- a )
+```
+
 #### sequence
 
 ```ply
@@ -1534,6 +1620,59 @@ Maybe keeps the first Just. Array appends every piece, lower first.
 ```
 
 The applicative of the traversable. The inner values stay in order.
+
+## @plylang/prelude/Remainder
+
+### Classes
+
+#### Remainder
+
+```ply
+& Number a => Remainder a
+```
+
+#### quotRem
+
+```ply
+quotRem ( Remainder a => a a -- a a )
+```
+
+#### divMod
+
+```ply
+divMod ( Remainder a => a a -- a a )
+```
+
+### Instances
+
+- Remainder Int
+- Remainder Num
+
+### Words
+
+#### quot
+
+```ply
+: quot ( Remainder a => a a -- a )
+```
+
+#### rem
+
+```ply
+: rem ( Remainder a => a a -- a )
+```
+
+#### div
+
+```ply
+: div ( Remainder a => a a -- a )
+```
+
+#### mod
+
+```ply
+: mod ( Remainder a => a a -- a )
+```
 
 ## @plylang/prelude/Semigroup
 

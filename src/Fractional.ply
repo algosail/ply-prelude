@@ -1,0 +1,28 @@
+@ Fractional, fdiv, floor, ceil, round, trunc, recip
+
+~ "Number" Number, one
+
+& Number a => Fractional a
+  fdiv ( a a -- a )
+  floor ( a -- a )
+  ceil ( a -- a )
+  round ( a -- a )
+  trunc ( a -- a )
+
+: recip ( Fractional a => a -- a )
+  one swap fdiv
+
+. ..................................................................................................
+
+# Fractional Num
+  fdiv = fdiv_num
+  floor = floor_num
+  ceil = ceil_num
+  round = round_num
+  trunc = trunc_num
+
+: foreign fdiv_num ( Num Num -- Num )
+: foreign floor_num ( Num -- Num )
+: foreign ceil_num ( Num -- Num )
+: foreign round_num ( Num -- Num )
+: foreign trunc_num ( Num -- Num )

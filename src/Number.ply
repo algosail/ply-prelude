@@ -1,0 +1,61 @@
+@ Number, add, sub, mul, sign, zero, one, negate, abs, inc, dec
+
+~ "Ord" Ord, lt, gt
+
+& Number a
+  add ( a a -- a )
+  sub ( a a -- a )
+  mul ( a a -- a )
+  zero ( -- a )
+  one ( -- a )
+
+? "add int" < 5n > [ 2n 3n add ]
+? "add num" < 3 > [ 2 1 add ]
+
+: inc ( Number a => a -- a )
+  one add
+
+: dec ( Number a => a -- a )
+  one sub
+
+: negate ( Number a => a -- a )
+  zero swap sub
+
+: sign ( Number a, Ord a => a -- a )
+  dup zero gt
+  [ drop one ]
+  [ zero lt [ one negate ] [ zero  ] if ]
+  if
+
+: abs ( Number a, Ord a => a -- a )
+  dup zero lt [ negate ] [  ] if
+
+. ..................................................................................................
+
+# Number Int
+  add = add_int
+  sub = sub_int
+  mul = mul_int
+  zero = zero_int
+  one = one_int
+
+: foreign add_int ( Int Int -- Int )
+: foreign sub_int ( Int Int -- Int )
+: foreign mul_int ( Int Int -- Int )
+: zero_int ( -- Int ) 0n
+: one_int ( -- Int ) 1n
+
+. ..................................................................................................
+
+# Number Num
+  add = add_num
+  sub = sub_num
+  mul = mul_num
+  zero = zero_num
+  one = one_num
+
+: foreign add_num ( Num Num -- Num )
+: foreign sub_num ( Num Num -- Num )
+: foreign mul_num ( Num Num -- Num )
+: zero_num ( -- Num ) 0
+: one_num ( -- Num ) 1

@@ -2,19 +2,21 @@
   Alternative, guard,
   Applicative, of, append, prepend,
   Apply, ap, lift2, lift3, apFirst, apSecond,
-  Arithmetic, add, sub, mult, div, mod, negate, zero, one, inc, dec, abs,
   Bifunctor, bimap, mapLeft, mapRight,
   Chain, chain, join,
   compose, id, curry2, curry3,
   Filterable, filter, partition, reject,
   Foldable, fold, size, all, any, none, elem, intercalate, foldMap, reverse, sortBy, sort,
+  Fractional, fdiv, floor, ceil, round, trunc, recip,
   Functor, map, flip,
   Group, invert,
   Logical, and, or, not, truth, falsity, implies,
   Monad,
   Monoid, empty,
+  Number, add, sub, mul, sign, zero, one, negate, abs, inc, dec,
   Ord, lte, lt, gt, gte, min, max, clamp, compare,
   Plus, init, oneOf,
+  Remainder, quotRem, quot, rem, divMod, div, mod,
   Semigroup, concat,
   Setoid, equal,
   Show, show,
@@ -25,19 +27,21 @@
 ~ "Alternative" Alternative, guard
 ~ "Applicative" Applicative, of, append, prepend
 ~ "Apply" Apply, ap, lift2, lift3, apFirst, apSecond
-~ "Arithmetic" Arithmetic, add, sub, mult, div, mod, negate, zero, one, inc, dec, abs
 ~ "Bifunctor" Bifunctor, bimap, mapLeft, mapRight
 ~ "Chain" Chain, chain, join
 ~ "Composition" compose, id, curry2, curry3
 ~ "Filterable" Filterable, filter, partition, reject
 ~ "Foldable" Foldable, fold, size, all, any, none, elem, intercalate, foldMap, reverse, sortBy, sort
+~ "Fractional" Fractional, fdiv, floor, ceil, round, trunc, recip
 ~ "Functor" Functor, map, flip
 ~ "Group" Group, invert
 ~ "Logical" Logical, and, or, not, truth, falsity, implies
 ~ "Monad" Monad
 ~ "Monoid" Monoid, empty
+~ "Number" Number, add, sub, mul, sign, zero, one, negate, abs, inc, dec
 ~ "Ord" Ord, lte, lt, gt, gte, min, max, clamp, compare
 ~ "Plus" Plus, init, oneOf
+~ "Remainder" Remainder, quotRem, quot, rem, divMod, div, mod
 ~ "Semigroup" Semigroup, concat
 ~ "Setoid" Setoid, equal
 ~ "Show" Show, show
