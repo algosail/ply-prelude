@@ -1,0 +1,7 @@
+@ Monad
+
+~ "Applicative" Applicative
+~ "Chain" Chain
+
+.. One constraint brings both of and chain.
+& Applicative m, Chain m => Monad m

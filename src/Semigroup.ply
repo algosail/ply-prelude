@@ -1,0 +1,45 @@
+@ Semigroup, concat
+
+~ "Types" Ordering, LT, EQ, GT
+
+.. Join the lower value with the upper one.
+&  Semigroup a
+  .. The lower value joined with the upper one.
+  concat ( a a -- a )
+
+? "concat string" < "foobaz" > [ "foo" "baz" concat ]
+? "concat unit" < unit > [ unit unit concat ]
+? "concat array" < < 1 2 3 4 > > [ < 1 2 > < 3 4 > concat ]
+? "concat ordering" < LT > [ EQ LT concat ]
+
+. ..................................................................................................
+
+# Semigroup Str
+  concat = concat_str
+
+: foreign concat_str ( Str Str -- Str )
+
+. ..................................................................................................
+
+# Semigroup Unit
+  concat = concat_unit
+
+: concat_unit ( Unit Unit -- Unit )
+  drop2 unit
+
+. ..................................................................................................
+
+# Semigroup ( Array a )
+  concat = concat_array
+
+: foreign concat_array ( (Array a) (Array a) -- (Array a) )
+
+. ..................................................................................................
+
+# Semigroup Ordering
+  concat = concat_ordering
+
+: concat_ordering ( Ordering Ordering -- Ordering )
+  LT _ -> drop
+  GT _ -> drop
+  EQ _ -> swap drop

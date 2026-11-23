@@ -1,0 +1,177 @@
+@ Foldable, fold, size, all, any, none, elem, intercalate, foldMap, reverse, sortBy, sort
+
+~ "Setoid" Setoid, equal
+~ "Monoid" Monoid, empty
+~ "Applicative" Applicative, append, prepend
+~ "Ord" Ord, lt, lte
+~ "Arithmetic" add, sub, inc
+~ "Logical" and, or, not
+~ "Semigroup" concat
+~ "Filterable" filter
+
+.. fold walks from the left. The initial value sits under the quotation.
+.. size, all, any, none, elem, intercalate, foldMap and reverse are in Words/Fold.
+.. sort and sortBy are in Words/Sort.
+.. size counts with Num. Importing Num here cycles through Option.
+& Foldable f
+  .. Walk from the left. The initial value sits under the quotation.
+  fold ( (f a) b (b a -- b) -- b )
+
+? "fold" < 3 > [ < 1 2 > 0 [ add ] fold ]
+
+. ..................................................................................................
+
+.. How many elements. An empty structure is 0.
+: size ( Foldable f => (f a) -- Num )
+  Array -> size_array
+  _ -> 0 [ drop inc ] fold
+
+: foreign size_array ( (Array a) -- Num )
+
+? "size of empty" < 0 > [ <> size ]
+? "size of three" < 3 > [ < 1 2 3 > size ]
+
+................................................................................................
+
+.. True when every element suits the quotation. An empty structure is true.
+: all ( Foldable f => (f a) (a -- Bool) -- Bool )
+  Array _ -> all_array
+  _ _ -> [ call and ] cons
+          true swap fold
+
+: foreign all_array ( (Array a) (a -- Bool) -- Bool )
+
+? "all of empty" < true > [ <> [ drop false ] all ]
+? "all holds" < true > [ < 1 1 > [ 1 equal ] all ]
+? "all fails" < false > [ < 1 2 > [ 1 equal ] all ]
+
+................................................................................................
+
+.. True when one element suits the quotation. An empty structure is false.
+: any ( Foldable f => (f a) (a -- Bool) -- Bool )
+  Array _ -> any_array
+  _ _ -> [ call or ] cons
+          false swap fold
+
+: foreign any_array ( (Array a) (a -- Bool) -- Bool )
+
+? "any of empty" < false > [ <> [ drop true ] any ]
+? "any holds" < true > [ < 0 1 > [ 1 equal ] any ]
+? "any fails" < false > [ < 0 0.25 > [ 1 equal ] any ]
+
+................................................................................................
+
+.. True when no element suits the quotation. An empty structure is true.
+: none ( Foldable f => (f a) (a -- Bool) -- Bool )
+  any not
+
+? "none of empty" < true > [ <> [ drop true ] none ]
+? "none holds" < true > [ < 0 0.25 > [ 1 equal ] none ]
+? "none fails" < false > [ < 0 1 > [ 1 equal ] none ]
+
+................................................................................................
+
+.. True when the upper value equals some element.
+: elem ( Setoid a, Foldable f => (f a) a -- Bool )
+  [ equal ] cons any
+
+? "elem" < true > [ < 1 2 > 2 elem ]
+? "elem empty" < false > [ < 1 > [ drop false ] filter 1 elem ]
+? "elem hits" < true > [ < "a" "b" "c" > "c" elem ]
+? "elem misses" < false > [ < "a" "b" "c" > "x" elem ]
+
+................................................................................................
+
+.. The pieces joined, with the separator between them. An empty structure is empty.
+: intercalate ( Monoid m, Foldable f => (f m) m -- m )
+  [ step ] cons emptyStore swap
+  fold value>>
+
+.. The first piece has not been joined yet. held is the monoid so far.
+; Store m = Store empty : Bool, value : m
+
+: emptyStore ( Monoid m => -- ( Store m ) )
+  true empty Store
+
+.. The next piece. The first piece is copied. Later pieces follow the separator.
+: step ( Monoid m => (Store m) m m -- (Store m) ) . store item sep
+  swap rot . sep item store
+  [ value>> ] [ empty>> ] bi . sep item value empty
+  [ unrot ] dip . value sep item empty
+  [ swap drop ] [ concat ] if
+  concat false swap Store
+
+? "intercalate empty" < "" > [ <> ", " intercalate ]
+? "intercalate strings" < "foo, bar, baz" > [ < "foo" "bar" "baz" > ", " intercalate ]
+? "intercalate one" < "foo" > [ < "foo" > ", " intercalate ]
+? "intercalate arrays" < < 1 0 0 2 3 > > [ < < 1 > < 2 3 > > < 0 0 > intercalate ]
+
+................................................................................................
+
+.. Concat each result, starting from empty.
+: foldMap ( Monoid m, Foldable f => (f a) (a -- m) -- m )
+  empty swap [ call concat ] cons fold
+
+................................................................................................
+
+.. The elements in the opposite order.
+: reverse ( Applicative f, Foldable f, Monoid (f a) => (f a) -- (f a) )
+  Array -> reverse_array
+  _ -> empty [ prepend ] fold
+
+: foreign reverse_array ( (Array a) -- (Array a) )
+
+? "reverse" < < 3 2 1 > > [ < 1 2 3 > reverse ]
+? "reverse one" < < 1 > > [ < 1 > reverse ]
+
+................................................................................................
+
+.. The elements ordered by the quotation, using lte on each result.
+.. An equal result keeps the earlier element.
+: sortBy ( Ord b, Applicative f, Foldable f, Monoid (f a) => (f a) (a -- b) -- (f a) )
+  [ keyed ] cons <> swap fold
+  [ compareKeyed ] sort_array
+  empty [ item>> append ] fold
+
+; Keyed a b = Keyed idx: Num, item : a, key : b
+
+.. The rank array with this element and its key.
+: keyed ( (Array (Keyed a b)) a (a -- b) -- (Array (Keyed a b)) )
+  dupd call [ dup size ] dip2 Keyed append
+
+: foreign sort_array ( ( Array a ) ( a a -- Num ) -- ( Array a ) )
+
+: compareKeyed ( Ord b => ( Keyed a b ) ( Keyed a b ) -- Num )
+  dup2 [ key>> ] bia lte
+  [ dup2 [ key>> ] bia swap lte
+    [ [ idx>> ] bia sub ] [ drop2 -1  ] if
+  ] [ drop2 1 ] if
+
+
+: foreign length_str ( Str -- Num )
+
+? "sortBy length" < < "red" "blue" "green" > > [ < "red" "green" "blue" > [ length_str ] sortBy ]
+? "sortBy keeps an earlier tie" < < "black" "white" > > [ < "black" "white" > [ length_str ] sortBy ]
+? "sortBy keeps a later tie" < < "white" "black" > > [ < "white" "black" > [ length_str ] sortBy ]
+? "sortBy keeps separated ties" < < "red" "blue" "green" "black" > > [ < "green" "red" "blue" "black" > [ length_str ] sortBy ]
+? "sortBy empty" < <> > [ <> [ length_str ] sortBy ]
+? "sortBy one" < < "red" > > [ < "red" > [ length_str ] sortBy ]
+
+................................................................................................
+
+.. The elements ordered by lte. An equal element keeps the earlier place.
+: sort ( Ord a, Applicative f, Foldable f, Monoid (f a) => (f a) -- (f a) )
+  [] sortBy
+
+? "sort numbers" < < 1 2 3 > > [ < 3 1 2 > sort ]
+? "sort reversed" < < 1 2 3 > > [ < 3 2 1 > sort ]
+? "sort strings" < < "a" "b" "c" > > [ < "c" "a" "b" > sort ]
+? "sort empty" < <> > [ < 1 > [ drop false ] filter sort ]
+? "sort one" < < 1 > > [ < 1 > sort ]
+
+. ..................................................................................................
+
+# Foldable Array
+  fold = fold_array
+
+: foreign fold_array ( a b. (Array a) b (b a -- b) -- b )

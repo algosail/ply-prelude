@@ -1,0 +1,77 @@
+@ Arithmetic, add, sub, mult, div, mod, negate, zero, one,
+  inc, dec, abs
+
+~ "Ord" Ord, lt
+
+.. Arithmetic methods share one instance.
+& Arithmetic a
+  .. The lower value plus the upper one.
+  add ( a a -- a )
+  .. The upper value subtracted from the lower one.
+  sub ( a a -- a )
+  .. The lower value times the upper one.
+  mult ( a a -- a )
+  .. The lower value divided by the upper one. A zero divisor throws.
+  div ( a a -- a )
+  .. The remainder. A zero divisor throws.
+  mod ( a a -- a )
+  .. The sign flipped.
+  negate ( a -- a )
+  .. The value add leaves unchanged.
+  zero ( -- a )
+  .. The value multiply leaves unchanged.
+  one ( -- a )
+
+: inc ( Arithmetic a => a -- a )
+  one add
+
+: dec ( Arithmetic a => a -- a )
+  one sub
+
+.. The value with a negative sign flipped. NaN stays NaN, and -0 stays -0.
+: abs ( Arithmetic a, Ord a => a -- a )
+  dup zero lt [ negate ] [ ] if
+
+
+. ..................................................................................................
+
+# Arithmetic Int
+  add = add_int
+  sub = sub_int
+  mult = mult_int
+  div = div_int
+  mod = mod_int
+  negate = negate_int
+  zero = zero_int
+  one = one_int
+
+
+: foreign add_int ( Int Int -- Int )
+: foreign sub_int ( Int Int -- Int )
+: foreign mult_int ( Int Int -- Int )
+: foreign div_int ( Int Int -- Int )
+: foreign mod_int ( Int Int -- Int )
+: foreign negate_int ( Int -- Int )
+: zero_int ( -- Int ) 0n
+: one_int ( -- Int ) 1n
+
+. ..................................................................................................
+
+# Arithmetic Num
+  add = add_num
+  sub = sub_num
+  mult = mult_num
+  div = div_num
+  mod = mod_num
+  negate = negate_num
+  zero = zero_num
+  one = one_num
+
+: foreign add_num ( Num Num -- Num )
+: foreign sub_num ( Num Num -- Num )
+: foreign mult_num ( Num Num -- Num )
+: foreign div_num ( Num Num -- Num )
+: foreign mod_num ( Num Num -- Num )
+: foreign negate_num ( Num -- Num )
+: zero_num ( -- Num ) 0
+: one_num ( -- Num ) 1

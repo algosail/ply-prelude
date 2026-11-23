@@ -1,0 +1,62 @@
+@ Setoid, equal
+
+~ "Types" Ordering, LT, EQ, GT
+
+.. Decide whether two values are equal.
+& Setoid a
+  .. True when the two values match.
+  equal ( a a -- Bool )
+
+. ..................................................................................................
+
+# Setoid Str
+  equal = equal_str
+
+: foreign equal_str ( Str Str -- Bool )
+
+. ..................................................................................................
+
+# Setoid Num
+  equal = equal_num
+
+: foreign equal_num ( Num Num -- Bool )
+
+. ..................................................................................................
+
+# Setoid Int
+  equal = equal_int
+
+: foreign equal_int ( Int Int -- Bool )
+
+. ..................................................................................................
+
+# Setoid Bool
+  equal = equal_bool
+
+: foreign equal_bool ( Bool Bool -- Bool )
+
+. ..................................................................................................
+
+# Setoid Unit
+  equal = equal_unit
+
+: equal_unit ( Unit Unit -- Bool )
+  drop drop true
+
+. ..................................................................................................
+
+# Setoid ( Array a )
+  equal = equal_array
+
+: foreign equal_array ( a. Setoid a => (Array a) (Array a) -- Bool )
+
+. ..................................................................................................
+
+# Setoid Ordering
+  equal = equal_ordering
+
+: equal_ordering ( Ordering Ordering -- Bool )
+  LT LT -> drop drop true
+  EQ EQ -> drop drop true
+  GT GT -> drop drop true
+  _  _  -> drop drop false

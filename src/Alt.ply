@@ -1,0 +1,16 @@
+@ Alt, alt
+
+~ "Functor" Functor
+
+.. Keep the lower value when it is a result, otherwise the upper one.
+.. An array keeps both, lower first.
+& Functor f => Alt f
+  .. The lower value when it is a result, otherwise the upper one.
+  alt ( (f a) (f a) -- (f a) )
+
+. ..................................................................................................
+
+# Alt Array
+  alt = alt_array
+
+: foreign alt_array ( ( Array a ) ( Array a ) -- ( Array a ) )

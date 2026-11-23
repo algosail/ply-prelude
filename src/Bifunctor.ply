@@ -1,0 +1,12 @@
+@ Bifunctor, bimap, mapLeft, mapRight
+
+.. Map both parameters. The left quotation is under the right one.
+& Bifunctor f
+  .. Left quotation under the right one.
+  bimap ( (f a c) (a -- b) (c -- d) -- (f b d) )
+
+: mapLeft ( Bifunctor f => (f a c) (a -- b) -- (f b c) )
+  [] bimap
+
+: mapRight ( Bifunctor f => (f a c) (c -- b) -- (f a b) )
+  [] swap bimap

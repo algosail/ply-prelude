@@ -1,0 +1,17 @@
+@ compose, id, curry2, curry3
+
+.. Runs the lower quotation first and the upper one second.
+.. A function type cannot be an instance head, so composition is a pair of words.
+: compose ( ( a -- b ) ( b -- c ) -- ( a -- c ) )
+  [ [ call ] dip call ] cons cons
+
+.. A quotation that returns its input.
+: id ( -- ( a -- a ) ) [ ]
+
+.. Split a binary quotation into unary steps, so ap can take one value at a time.
+: curry2 ( ( a b -- c ) -- ( a -- ( b --c ) ) )
+  [ [ swapd call ] cons cons ] cons
+
+.. Split a ternary quotation into unary steps, so ap can take one value at a time.
+: curry3 ( ( a b c -- d ) -- ( a -- ( b -- ( c -- d ) ) ) )
+  [ [ [ [ swap rot ] dip call ] cons cons cons ] cons cons ] cons

@@ -1,0 +1,28 @@
+@ Chain, chain, join
+
+~ "Apply" Apply
+~ "Applicative" append
+~ "Arithmetic" mult
+
+.. Apply a quotation that returns a container, and join the results. The quotation is on top.
+& Apply f => Chain f
+  .. The containers the quotation returns, joined into one.
+  chain ( (f a) (a -- (f b)) -- (f b) )
+
+? "chain" < < 1 10 > >
+  [ < 1 > [ dup 10 mult swap <> swap append swap append ] chain ]
+
+
+.. One layer removed. The inner container is the result.
+: join ( Chain f => (f (f a)) -- (f a) )
+  [] chain
+
+? "join" < < 1 2 3 > > [ < < 1 > < 2 3 > > join ]
+? "join empty" < <> > [ < <> <> > join ]
+
+. ..................................................................................................
+
+# Chain Array
+  chain = chain_array
+
+: foreign chain_array ( (Array a) (a -- (Array b)) -- (Array b) )

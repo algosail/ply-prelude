@@ -1,0 +1,10 @@
+@ Group, invert
+
+~ "Monoid" Monoid
+
+.. A monoid whose concat has an inverse. No prelude type is an instance.
+& Monoid g => Group g
+  .. The value that concats back to empty.
+  invert ( g -- g )
+
+. ..................................................................................................

@@ -1,0 +1,31 @@
+@ Filterable, filter, partition, reject
+
+~ "Logical" not
+~ "Setoid" equal
+~ "Ord" lt
+
+.. filter keeps values the quotation accepts.
+.. partition leaves the matches below and the rest on top.
+.. filterMap keeps Some. partitionMap leaves Right below and Left on top.
+& Filterable f
+  .. Values the quotation accepts.
+  filter ( (f a) (a -- Bool) -- (f a) )
+  .. Matches below, the rest on top.
+  partition ( (f a) (a -- Bool) -- (f a) (f a) )
+
+: reject ( Filterable f => (f a) (a -- Bool) -- (f a) )
+  [ call not ] cons filter
+
+
+. ..................................................................................................
+
+# Filterable Array
+  filter = filter_array
+  partition = partition_array
+
+: foreign filter_array ( a. (Array a) (a -- Bool) -- (Array a) )
+: foreign partition_array ( a. (Array a) (a -- Bool) -- (Array a) (Array a) )
+
+? "filter" < < 0n > > [ < 0n 2n > [ 1n lt ] filter ]
+? "partition" < < 0n > < 2n > > [ < 0n 2n > [ 1n lt ] partition ]
+? "reject" < < 1 3 > > [ < 1 2 3 > [ 2 equal ] reject ]

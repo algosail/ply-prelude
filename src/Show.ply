@@ -1,0 +1,63 @@
+@ Show, show
+
+~ "Types" Ordering, LT, EQ, GT
+
+.. Render a value as text.
+& Show a
+  .. The text of this value.
+  show ( a -- Str )
+
+. ..................................................................................................
+
+# Show Str
+  show = show_str
+
+: foreign show_str ( Str -- Str )
+
+. ..................................................................................................
+
+# Show Num
+  show = show_num
+
+: foreign show_num ( Num -- Str )
+
+. ..................................................................................................
+
+# Show Int
+  show = show_int
+
+: foreign show_int ( Int -- Str )
+
+. ..................................................................................................
+
+# Show Bool
+  show = show_bool
+
+: show_bool ( Bool -- Str )
+  true -> "True"
+  false -> "False"
+
+. ..................................................................................................
+
+# Show Unit
+  show = show_unit
+
+: show_unit ( Unit -- Str )
+  drop "Unit"
+
+. ..................................................................................................
+
+# Show ( Array a )
+  show = show_array
+
+: foreign show_array ( Show a => ( Array a ) -- Str )
+
+. ..................................................................................................
+
+# Show Ordering
+  show = show_ordering
+
+: show_ordering ( Ordering -- Str )
+  LT -> drop "LT"
+  EQ -> drop "EQ"
+  GT -> drop "GT"

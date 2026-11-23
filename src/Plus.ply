@@ -1,0 +1,14 @@
+@ Plus, init, oneOf
+
+~ "Alt" Alt, alt
+~ "Foldable" Foldable, fold
+
+.. The value that loses to every other one. alt with it changes nothing.
+& Alt f => Plus f
+  .. The value that loses. alt with it changes nothing.
+  init ( -- (f a) )
+
+.. Folds with alt, starting from init.
+.. Maybe keeps the first Just. Array appends every piece, lower first.
+: oneOf ( Foldable t, Plus f => (t (f a)) -- (f a) )
+  init [ alt ] fold

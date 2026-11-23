@@ -1,0 +1,24 @@
+@ Applicative, of, append, prepend
+
+~ "Apply" Apply
+~ "Semigroup" Semigroup, concat
+
+.. Put one value into the container.
+& Apply f => Applicative f
+  .. The container of this one value.
+  of ( a -- (f a) )
+
+.. The container with this value joined after it.
+: append ( Applicative f, Semigroup (f a) => (f a) a -- (f a) )
+  of concat
+
+.. The container with this value joined before it.
+: prepend ( Applicative f, Semigroup (f a) => (f a) a -- (f a) )
+  of swap concat
+
+. ..................................................................................................
+
+# Applicative Array
+  of = of_array
+
+: foreign of_array ( a -- (Array a) )

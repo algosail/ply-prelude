@@ -1,0 +1,11 @@
+@ Alternative, guard
+
+~ "Applicative" Applicative, of
+~ "Plus" Plus, init
+
+.. One constraint brings of, alt, and zero.
+& Applicative f, Plus f => Alternative f
+
+.. true is of Unit. false is zero.
+: guard ( Alternative f => Bool -- (f Unit) )
+  [ unit of ] [ init ] if

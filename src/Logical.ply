@@ -1,0 +1,38 @@
+@ Logical, and, or, not, truth, falsity, implies
+
+.. Conjunction, disjunction, negation, and implication.
+.. truth and falsity are the constants, because true and false are keywords.
+& Logical a
+  .. Conjunction.
+  and ( a a -- a )
+  .. Disjunction.
+  or ( a a -- a )
+  .. The opposite value.
+  not ( a -- a )
+  .. The constant that and leaves unchanged.
+  truth ( -- a )
+  .. The constant that or leaves unchanged.
+  falsity ( -- a )
+
+.. The lower value implies the upper one.
+: implies ( Logical a => a a -- a )
+  swap not swap or
+
+. ..................................................................................................
+
+# Logical Bool
+  and = and_bool
+  or = or_bool
+  not = not_bool
+  truth = truth_bool
+  falsity = falsity_bool
+
+: foreign and_bool ( Bool Bool -- Bool )
+: foreign or_bool ( Bool Bool -- Bool )
+: foreign not_bool ( Bool -- Bool )
+
+: truth_bool ( -- Bool )
+  true
+
+: falsity_bool ( -- Bool )
+  false

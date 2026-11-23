@@ -1,0 +1,36 @@
+@ Apply, ap, lift2, lift3, apFirst, apSecond
+
+~ "Functor" Functor, map
+~ "Composition" curry2, curry3
+
+.. Apply a container of quotations. The quotations are on top.
+& Functor f => Apply f
+  .. Each value run with the quotation beside it. The quotations are on top.
+  ap ( (f a) (f (a -- b)) -- (f b) )
+
+.. Pass two container values, from the bottom upward, to one quotation.
+.. map takes the lower value. ap takes the upper one. The quotation stays uncurried.
+: lift2 ( Apply f => (f a) (f b) (a b -- c) -- (f c) )
+  rot swap curry2 map ap
+
+.. Pass three container values, from the bottom upward, to one quotation.
+.. map takes the first value. ap takes the other two. The quotation stays uncurried.
+: lift3 ( Apply f => (f a) (f b) (f c) (a b c -- d) -- (f d) )
+  [ rot swap unrot ] dip
+  curry3 map
+  ap ap
+
+.. Keep the lower container's value. The upper container still runs.
+: apFirst ( Apply f => (f a) (f b) -- (f a) )
+  [ drop ] lift2
+
+.. Keep the upper container's value. The lower container still runs.
+: apSecond ( Apply f => (f a) (f b) -- (f b) )
+  [ swap drop ] lift2
+
+. ..................................................................................................
+
+# Apply Array
+  ap = ap_array
+
+: foreign ap_array ( (Array a) (Array (a -- b)) -- (Array b) )

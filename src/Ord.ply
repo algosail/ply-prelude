@@ -1,0 +1,100 @@
+@ Ord, lte, lt, gt, gte, min, max, clamp, compare
+
+~ "Setoid" Setoid, equal
+~ "Types" Ordering, LT, EQ, GT
+
+.. A total order. The lower value is compared with the upper one.
+& Setoid a => Ord a
+  .. True when the lower value is below the upper one, or they match.
+  lte ( a a -- Bool )
+
+? "lte str" < true > [ "bar" "foo" lte ]
+
+.. True when the lower value is below the upper one.
+: lt ( Ord a => a a -- Bool )
+  swap lte [ false ] [ true ] if
+
+.. True when the lower value is above the upper one.
+: gt ( Ord a => a a -- Bool )
+  swap lt
+
+.. True when the lower value is above the upper one, or they match.
+: gte ( Ord a => a a -- Bool )
+  swap lte
+
+.. The smaller value. The lower one stays when they match.
+: min ( Ord a => a a -- a )
+  dup2 lte [ drop ] [ swap drop ] if
+
+? "min num" < 2 > [ 4 2 min ]
+
+.. The larger value. The upper one stays when they match.
+: max ( Ord a => a a -- a )
+  dup2 lte [ swap drop ] [ drop ] if
+
+? "max num" < 4 > [ 4 2 max ]
+
+.. Lower bound, upper bound, then the value. A value outside the bounds becomes the nearer bound.
+: clamp ( Ord a => a a a -- a )
+  min max
+
+? "clamp num" < 4 > [ 2 4 5 clamp ]
+
+: compare ( Ord a =>  a a -- Ordering )
+  dup2 lte [ equal [ EQ ] [ LT ] if  ] [ drop2 GT ] if
+
+? "compare num" < GT > [ 5 2 compare ]
+
+. ..................................................................................................
+
+# Ord Str
+  lte = lte_str
+
+: foreign lte_str ( Str Str -- Bool )
+
+. ..................................................................................................
+
+# Ord Num
+  lte = lte_num
+
+: foreign lte_num ( Num Num -- Bool )
+
+. ..................................................................................................
+
+# Ord Int
+  lte = lte_int
+
+: foreign lte_int ( Int Int -- Bool )
+
+. ..................................................................................................
+
+# Ord Bool
+  lte = lte_bool
+
+: foreign lte_bool ( Bool Bool -- Bool )
+
+. ..................................................................................................
+
+# Ord Unit
+  lte = lte_unit
+
+: foreign lte_unit ( Unit Unit -- Bool )
+
+. ..................................................................................................
+
+# Ord ( Array a )
+  lte = lte_array
+
+: foreign lte_array ( Ord a => ( Array a ) ( Array a ) -- Bool )
+
+. ..................................................................................................
+
+# Ord Ordering
+  lte = lte_ordering
+
+: lte_ordering ( Ordering Ordering -- Bool )
+  dup2 equal
+    [ drop2 true ]
+    [ swap LT equal
+      [ drop true ] [ GT equal ] if
+    ] if

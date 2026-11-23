@@ -1,0 +1,45 @@
+@ Alt, alt,
+  Alternative, guard,
+  Applicative, of, append, prepend,
+  Apply, ap, lift2, lift3, apFirst, apSecond,
+  Arithmetic, add, sub, mult, div, mod, negate, zero, one, inc, dec, abs,
+  Bifunctor, bimap, mapLeft, mapRight,
+  Chain, chain, join,
+  compose, id, curry2, curry3,
+  Filterable, filter, partition, reject,
+  Foldable, fold, size, all, any, none, elem, intercalate, foldMap, reverse, sortBy, sort,
+  Functor, map, flip,
+  Group, invert,
+  Logical, and, or, not, truth, falsity, implies,
+  Monad,
+  Monoid, empty,
+  Ord, lte, lt, gt, gte, min, max, clamp, compare,
+  Plus, init, oneOf,
+  Semigroup, concat,
+  Setoid, equal,
+  Show, show,
+  Traversable, traverse, sequence,
+  Ordering, LT, EQ, GT
+
+~ "Alt" Alt, alt
+~ "Alternative" Alternative, guard
+~ "Applicative" Applicative, of, append, prepend
+~ "Apply" Apply, ap, lift2, lift3, apFirst, apSecond
+~ "Arithmetic" Arithmetic, add, sub, mult, div, mod, negate, zero, one, inc, dec, abs
+~ "Bifunctor" Bifunctor, bimap, mapLeft, mapRight
+~ "Chain" Chain, chain, join
+~ "Composition" compose, id, curry2, curry3
+~ "Filterable" Filterable, filter, partition, reject
+~ "Foldable" Foldable, fold, size, all, any, none, elem, intercalate, foldMap, reverse, sortBy, sort
+~ "Functor" Functor, map, flip
+~ "Group" Group, invert
+~ "Logical" Logical, and, or, not, truth, falsity, implies
+~ "Monad" Monad
+~ "Monoid" Monoid, empty
+~ "Ord" Ord, lte, lt, gt, gte, min, max, clamp, compare
+~ "Plus" Plus, init, oneOf
+~ "Semigroup" Semigroup, concat
+~ "Setoid" Setoid, equal
+~ "Show" Show, show
+~ "Traversable" Traversable, traverse, sequence
+~ "Types" Ordering, LT, EQ, GT

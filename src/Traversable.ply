@@ -1,0 +1,75 @@
+@ Traversable, traverse, sequence
+
+~ "Setoid" equal
+~ "Foldable" Foldable, size
+~ "Functor" Functor, map
+~ "Applicative" Applicative, of
+~ "Apply" lift2
+~ "Semigroup" concat
+~ "Arithmetic" add, sub, div, mod,  mult, inc, dec
+
+.. Visit each value with a quotation that returns an applicative result, and collect those results in order.
+.. Applicative already brings ap and map.
+& Foldable f, Functor f => Traversable f
+  .. Each value visited by a quotation that returns an applicative result. The results stay in order.
+  traverse ( Applicative m => (f a) (a -- (m b)) -- (m (f b)) )
+
+? "traverse order" < < < 1 3 > < 1 4 > < 2 3 > < 2 4 > > > [ < < 1 2 > < 3 4 > > [ ] traverse ]
+
+.. The applicative of the traversable. The inner values stay in order.
+: sequence ( Applicative f, Traversable t => (t (f a)) -- (f (t a)) )
+  [ ] traverse
+
+? "sequence arrays" < < < 1 3 > < 1 4 > < 2 3 > < 2 4 > > > [ < < 1 2 > < 3 4 > > sequence ]
+? "sequence split" < < < 1 2 3 4 > > > [ < < 1 > < 2 > < 3 > < 4 > > sequence ]
+? "sequence one" < < < 1 > > > [ < < 1 > > sequence ]
+? "sequence six" < < < 1 2 3 4 5 6 > > > [ < < 1 > < 2 > < 3 > < 4 > < 5 > < 6 > > sequence ]
+? "sequence odd" < < < 1 3 5 > < 1 3 6 > < 1 4 5 > < 1 4 6 > < 2 3 5 > < 2 3 6 > < 2 4 5 > < 2 4 6 > > >
+  [ < < 1 2 > < 3 4 > < 5 6 > > sequence ]
+
+. ..................................................................................................
+
+# Traversable Array
+  traverse = traverseArray
+
+: traverseArray ( f a b. Applicative f => (Array a) (a -- (f b)) -- (f (Array b)) )
+  over size
+  dup 2 mod 0 equal
+  [ 0 swap go ]
+  [ evenTraverse  ]
+  if
+
+: foreign index_array ( ( Array a ) Num -- a )
+
+: pair ( a a -- ( Array a ) )
+  a b -> < a b >
+
+: evenTraverse ( Applicative f => (Array a) (a -- (f b)) Num -- (f (Array b)) )
+  dec 1 swap [ dup2 ] dip2 go
+  [ [ 0 index_array ] dip call [ of ] map ] dip
+  [ concat ] lift2
+
+: go ( Applicative f => (Array a) (a -- (f b)) Num Num -- ( f ( Array b ) ) )
+  0 -> drop drop2 <  > of
+  2 -> go2
+  _ -> goDefault
+
+: go2 ( Applicative f => (Array a) (a -- (f b)) Num -- ( f ( Array b ) ) )
+  rot swap [ index_array ] keep2 inc index_array
+  rot bia [ pair ] lift2
+
+: goDefault ( Applicative f => (Array a) (a -- (f b)) Num Num -- ( f ( Array b ) ) )
+  dup 4 div 2 mult swapd . n idx m
+  [ leftGo ] keep2 [ swap ] dip2 . n idx m
+  rigthGo
+  [ keep2 ] dip call
+  [ concat ] lift2
+
+: leftGo ( Applicative f => Num Num -- ( ( Array a ) ( a -- ( f b ) ) -- ( f ( Array b ) ) ) )
+  [ go ] cons cons
+
+: rigthGo ( Applicative f => Num Num Num -- ( ( Array a ) ( a -- ( f b ) ) -- ( f ( Array b ) ) ) )
+  . n idx m
+  [ add ] keep swapd . idx' n m
+  sub . idx' n'
+  [ go ] cons cons

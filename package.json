@@ -1,0 +1,133 @@
+{
+  "name": "@plylang/prelude",
+  "description": "Ply prelude",
+  "version": "1.0.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/algosail/ply-prelude.git"
+  },
+  "files": [
+    "dist",
+    "foreign"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "plylang build",
+    "exports": "plylang build --exports --all",
+    "test": "plylang test",
+    "doc": "plylang docs --out README.md"
+  },
+  "ply": {
+    "source": "src",
+    "foreign": "foreign",
+    "out": "dist",
+    "entry": "Prelude",
+    "language": 1
+  },
+  "devDependencies": {
+    "@plylang/plylang": "^1.3.2"
+  },
+  "exports": {
+    ".": {
+      "ply": "./dist/Prelude.d.ply",
+      "import": "./dist/Prelude.js"
+    },
+    "./Alt": {
+      "ply": "./dist/Alt.d.ply",
+      "import": "./dist/Alt.js"
+    },
+    "./Alternative": {
+      "ply": "./dist/Alternative.d.ply",
+      "import": "./dist/Alternative.js"
+    },
+    "./Applicative": {
+      "ply": "./dist/Applicative.d.ply",
+      "import": "./dist/Applicative.js"
+    },
+    "./Apply": {
+      "ply": "./dist/Apply.d.ply",
+      "import": "./dist/Apply.js"
+    },
+    "./Arithmetic": {
+      "ply": "./dist/Arithmetic.d.ply",
+      "import": "./dist/Arithmetic.js"
+    },
+    "./Bifunctor": {
+      "ply": "./dist/Bifunctor.d.ply",
+      "import": "./dist/Bifunctor.js"
+    },
+    "./Chain": {
+      "ply": "./dist/Chain.d.ply",
+      "import": "./dist/Chain.js"
+    },
+    "./Composition": {
+      "ply": "./dist/Composition.d.ply",
+      "import": "./dist/Composition.js"
+    },
+    "./Filterable": {
+      "ply": "./dist/Filterable.d.ply",
+      "import": "./dist/Filterable.js"
+    },
+    "./Foldable": {
+      "ply": "./dist/Foldable.d.ply",
+      "import": "./dist/Foldable.js"
+    },
+    "./Functor": {
+      "ply": "./dist/Functor.d.ply",
+      "import": "./dist/Functor.js"
+    },
+    "./Group": {
+      "ply": "./dist/Group.d.ply"
+    },
+    "./Logical": {
+      "ply": "./dist/Logical.d.ply",
+      "import": "./dist/Logical.js"
+    },
+    "./Monad": {
+      "ply": "./dist/Monad.d.ply"
+    },
+    "./Monoid": {
+      "ply": "./dist/Monoid.d.ply",
+      "import": "./dist/Monoid.js"
+    },
+    "./Ord": {
+      "ply": "./dist/Ord.d.ply",
+      "import": "./dist/Ord.js"
+    },
+    "./Plus": {
+      "ply": "./dist/Plus.d.ply",
+      "import": "./dist/Plus.js"
+    },
+    "./Prelude": {
+      "ply": "./dist/Prelude.d.ply",
+      "import": "./dist/Prelude.js"
+    },
+    "./Semigroup": {
+      "ply": "./dist/Semigroup.d.ply",
+      "import": "./dist/Semigroup.js"
+    },
+    "./Setoid": {
+      "ply": "./dist/Setoid.d.ply",
+      "import": "./dist/Setoid.js"
+    },
+    "./Show": {
+      "ply": "./dist/Show.d.ply",
+      "import": "./dist/Show.js"
+    },
+    "./Traversable": {
+      "ply": "./dist/Traversable.d.ply",
+      "import": "./dist/Traversable.js"
+    },
+    "./Types": {
+      "ply": "./dist/Types.d.ply",
+      "import": "./dist/Types.js"
+    }
+  }
+}

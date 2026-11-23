@@ -1,0 +1,37 @@
+@ Monoid, empty
+
+~ "Semigroup" Semigroup
+~ "Types" Ordering, EQ
+
+.. The empty value of a semigroup. Concat with empty changes nothing.
+& Semigroup a => Monoid a
+  .. The value concat leaves unchanged.
+  empty ( -- a )
+
+. ..................................................................................................
+
+# Monoid Str
+  empty = empty_str
+
+: empty_str ( -- Str ) ""
+
+. ..................................................................................................
+
+# Monoid Unit
+  empty = empty_unit
+
+: empty_unit ( -- Unit ) unit
+
+. ..................................................................................................
+
+# Monoid ( Array a )
+  empty = empty_array
+
+: empty_array ( -- ( Array a ) ) < >
+
+. ..................................................................................................
+
+# Monoid Ordering
+  empty = empty_ordering
+
+: empty_ordering ( -- Ordering ) EQ
