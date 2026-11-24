@@ -52,10 +52,10 @@
 
 : go ( Applicative f => (Array a) (a -- (f b)) Num Num -- ( f ( Array b ) ) )
   0 -> drop drop2 <  > of
-  2 -> go2
+  2 -> goWithTwo
   _ -> goDefault
 
-: go2 ( Applicative f => (Array a) (a -- (f b)) Num -- ( f ( Array b ) ) )
+: goWithTwo ( Applicative f => (Array a) (a -- (f b)) Num -- ( f ( Array b ) ) )
   rot swap [ index_array ] keep2 inc index_array
   rot bia [ pair ] lift2
 

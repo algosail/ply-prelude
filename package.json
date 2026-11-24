@@ -1,7 +1,7 @@
 {
   "name": "@plylang/prelude",
   "description": "Ply prelude",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -54,10 +54,6 @@
     "./Apply": {
       "ply": "./dist/Apply.d.ply",
       "import": "./dist/Apply.js"
-    },
-    "./Arithmetic": {
-      "ply": "./dist/Arithmetic.d.ply",
-      "import": "./dist/Arithmetic.js"
     },
     "./Bifunctor": {
       "ply": "./dist/Bifunctor.d.ply",
@@ -128,6 +124,18 @@
     "./Types": {
       "ply": "./dist/Types.d.ply",
       "import": "./dist/Types.js"
+    },
+    "./Fractional": {
+      "ply": "./dist/Fractional.d.ply",
+      "import": "./dist/Fractional.js"
+    },
+    "./Number": {
+      "ply": "./dist/Number.d.ply",
+      "import": "./dist/Number.js"
+    },
+    "./Remainder": {
+      "ply": "./dist/Remainder.d.ply",
+      "import": "./dist/Remainder.js"
     }
   }
 }
